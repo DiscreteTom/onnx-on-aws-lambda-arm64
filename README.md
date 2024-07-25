@@ -15,7 +15,7 @@ terminate called after throwing an instance of 'onnxruntime::OnnxRuntimeExceptio
 
 That's because AWS Lambda remove these files for the simplicity of runtimes.
 
-In Zip mode, you can't modify files in `/sys`, but in Container mode you can. This demo will copy [`patch.txt`](./hello_world/patch.txt) to `/sys/devices/system/cpu/possible` and `/sys/devices/system/cpu/present` to fix the issue.
+In Zip mode, you can't modify files in `/sys`, but in Container mode you can. This demo will copy [`patch.txt`](./hello_world/patch.txt) to `/sys/devices/system/cpu/possible` and `/sys/devices/system/cpu/present` to fix the issue. See the [Dockerfile](./hello_world/Dockerfile) for more details.
 
 > [!IMPORTANT]
 > You should modify the content of [`patch.txt`](./hello_world/patch.txt) corresponding to your Lambda function's memory configuration. The content should be `0-X` where `X` is the cpu count of the Lambda function ***minus 1***. You can use `os.cpu_count()` in python to checkout how many vCPU is allocated for your memory configuration. E.g. when memory is 128MB there is 2 vCPU and the content should be `0-1`; when memory is 10240MB there is 6 vCPU and the content should be `0-5`.
