@@ -18,9 +18,9 @@ That's because AWS Lambda remove these files for the simplicity of runtimes.
 In Zip mode, you can't modify files in `/sys`, but in Container mode you can. This demo will copy [`patch.txt`](./hello_world/patch.txt) to `/sys/devices/system/cpu/possible` and `/sys/devices/system/cpu/present` to fix the issue. See the [Dockerfile](./hello_world/Dockerfile) for more details.
 
 > [!IMPORTANT]
-> You should modify the content of [`patch.txt`](./hello_world/patch.txt) corresponding to your Lambda function's memory configuration. The content should be `0-X` where `X` is the cpu count of the Lambda function ***minus 1***. You can use `os.cpu_count()` in python to checkout how many vCPU is allocated for your memory configuration. E.g. when memory is 128MB there is 2 vCPU and the content should be `0-1`; when memory is 10240MB there is 6 vCPU and the content should be `0-5`.
+> You should modify the content of [`patch.txt`](./hello_world/patch.txt) corresponding to your Lambda function's memory configuration. The content should be `0-X` where `X` is the cpu count of the Lambda function ***minus 1***. You can use `os.cpu_count()` in python to checkout how many vCPUs are allocated for your memory configuration. E.g. when the memory is 128MB there will be 2 vCPUs and the content should be `0-1`; when the memory is 10240MB there will be 6 vCPUs and the content should be `0-5`.
 
-> Why can't you generate `/sys/devices/system/cpu/possible` and `/sys/devices/system/cpu/present` during the runtime to write the correct vCPU? That's because in Lambda only `/tmp` is writable. Thus you have to finish the patch process before the Lambda is invoked.
+> Why can't you generate `/sys/devices/system/cpu/possible` and `/sys/devices/system/cpu/present` during the runtime to write the correct vCPU count? That's because in Lambda only `/tmp` is writable. Thus you have to finish the patch process before the Lambda is invoked.
 
 This demo uses [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html) as the development framework.
 
